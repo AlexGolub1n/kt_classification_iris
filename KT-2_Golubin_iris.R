@@ -30,5 +30,20 @@ y <- log (x) + rnorm (x, sd = 0,2)
 m <- svm (x, y) 
 new <- predict(m, x) 
 View(new)
-        
+       
+#KNN
+set.seed(4)#зададим зерно случайных чисел
+names(data)#посмотрим переменные
+data$Species <- factor(data$Species)# переведем отклик в фактор    
+
+index <- sample(1:nrow(data), round(0.6*nrow(data))) # делим дата-сет на обучающую и тестовую выборки
+train <- data[index, ]
+test <- data[-index, ]
+
+
+knn.iris <- knn(train = train[, -5], test = test[, -5], 
+                       cl = train[, "Species"], k = 5, prob = TRUE)
+
+table(Факт = test$Species, Прогноз = knn.iris) #построим конфьюжн-матрицу
+
         
